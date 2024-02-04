@@ -122,6 +122,67 @@ int fat32_touch(FILE *fp, const char *filename, uint32_t directoryCluster) {
     }
 }
 
+// Function to list files and directories in a directory of the FAT32 file system
+void fat32_ls(FILE *fp, const char *dirname) {
+    // Calculate the starting offset of the directory
+    uint32_t offset = (bpb.reservedSectors + bpb.numFATs * bpb.sectorsPerFAT32) * bpb.bytesPerSector +
+                      bpb.rootCluster * 512; // Assuming 512 bytes per cluster
+
+    // Seek to the beginning of the directory
+    fseek(fp, offset, SEEK_SET);
+
+    // Loop through directory entries
+    DirectoryEntry entry;
+    while (fread(&entry, sizeof(DirectoryEntry), 1, fp) == 1) {
+        if (entry.name[0] == 0x00) // End of directory
+            break;
+        if (entry.name[0] != 0xE5 && entry.attributes != 0x0F) { // Not deleted or long file name
+            // Print directory entry details
+            printf("%s\n", entry.name);
+        }
+        // Seek to the next directory entry
+        fseek(fp, sizeof(DirectoryEntry) - 1, SEEK_CUR);
+    }
+}
+
+// Function to remove a file or directory from the FAT32 file system
+int fat32_rm(FILE *fp, const char *name, int isDir) {
+    // Calculate the starting offset of the directory
+    uint32_t offset = (bpb.reservedSectors + bpb.numFATs * bpb.sectorsPerFAT32) * bpb.bytesPerSector +
+                      bpb.rootCluster * 512; // Assuming 512 bytes per cluster
+
+    // Seek to the beginning of the directory
+    fseek(fp, offset, SEEK_SET);
+
+    // Loop through directory entries
+    DirectoryEntry entry;
+    while (fread(&entry, sizeof(DirectoryEntry), 1, fp) == 1) {
+        if (entry.name[0] == 0x00) // End of directory
+            break;
+        if (entry.name[0] != 0xE5 && entry.attributes != 0x0F) { // Not deleted or long file name
+            if (strncmp(entry.name, name, 11) == 0) {
+                if ((isDir && (entry.attributes & 0x10)) || (!isDir && !(entry.attributes & 0x10))) {
+                    // Mark the directory entry as deleted
+                    fseek(fp, -sizeof(DirectoryEntry), SEEK_CUR);
+                    memset(&entry, 0xE5, sizeof(DirectoryEntry));
+                    fwrite(&entry, sizeof(DirectoryEntry), 1, fp);
+                    fflush(fp);
+                    printf("'%s' removed successfully.\n", name);
+                    return 0;
+                } else {
+                    printf("'%s' is not a %s.\n", name, isDir ? "directory" : "file");
+                    return 1;
+                }
+            }
+        }
+        // Seek to the next directory entry
+        fseek(fp, sizeof(DirectoryEntry) - 1, SEEK_CUR);
+    }
+
+    printf("'%s' not found.\n", name);
+    return 1;
+}
+
 int main() {
     FILE *fp;
 
@@ -151,6 +212,16 @@ int main() {
 
     // Create a directory named "test" in the root directory
     fat32_mkdir(fp, "test");
+
+    fat32_ls(fp, "test");
+
+    // Remove a directory named "test" from the root directory
+    // Note: Pass 1 as the second argument to remove a directory
+    fat32_rm(fp, "test", 1);
+
+    // Remove a file named "example.txt" from the root directory
+    // Note: Pass 0 as the second argument to remove a file
+    fat32_rm(fp, "example.txt", 0);
 
     // Close the disk image file
     fclose(fp);
