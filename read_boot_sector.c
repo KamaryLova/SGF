@@ -87,8 +87,12 @@ int fat32_touch(FILE *fp, const char *filename, uint32_t directoryCluster) {
     // Calculate the starting offset of the directory
     uint32_t offset = (directoryCluster - 2) * 512 + 0x10000; // Adjust this offset based on your specific FAT32 layout
 
+    printf("%zu", offset);
+
     // Seek to the beginning of the directory
     fseek(fp, offset, SEEK_SET);
+
+
 
     // Create a directory entry structure
     DirectoryEntry entry;
@@ -199,13 +203,13 @@ int main() {
     // Read the boot sector into the BPB structure
     fread(&bpb, sizeof(BootSector), 1, fp);
 
-/*     // Print some information from the boot sector
+    // Print some information from the boot sector
     printf("Bytes per sector: %u\n", bpb.bytesPerSector);
     printf("Sectors per cluster: %u\n", bpb.sectorsPerCluster);
     printf("Number of FATs: %u\n", bpb.numFATs);
     printf("Total sectors: %u\n", bpb.totalSectors32);
     printf("Sectors per FAT: %u\n", bpb.sectorsPerFAT32);
-    printf("Volume label: %s\n", bpb.volumeLabel); */
+    printf("Volume label: %s\n", bpb.volumeLabel);
 
     // Create a file named "example.txt" in the root directory (cluster 2)
     fat32_touch(fp, "example.txt", 2);
