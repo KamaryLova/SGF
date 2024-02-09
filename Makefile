@@ -1,13 +1,25 @@
-all: bin shell noyau ecran
+CC=gcc
 
-bin: 
-	@if [ ! -d "bin" ]; then mkdir bin; fi
+SRC_DIR=src
+BUILD_DIR=bin
+
+.PHONY: all shell noyau ecran clean always tools_fat
+
+all: shell noyau ecran
+
+disk_image: $(BUILD_DIR)/main_disk.img
 
 shell: 
-	gcc -o bin/shell src/shell.c
+	$(CC) -o bin/shell src/shell.c
 
 noyau: 
-	gcc -o bin/noyau src/noyau.c
+	$(CC) -o bin/noyau src/noyau.c
 
 ecran: 
-	gcc -o bin/ecran src/ecran.c
+	$(CC) -o bin/ecran src/ecran.c
+
+always:
+		mkdir -p $(BUILD_DIR)
+
+clean:
+		rm -rf $(BUILD_DIR)/*

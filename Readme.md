@@ -17,7 +17,7 @@ Pour des démos et pouvoir débugger, il est aussi nécessaire d'avoir l'utilita
 
 ## Diagramme de communication
 
-
+![Diagramme de communication](Diagramme_communication.jpg)
 
 ## Cahier des charges
 
