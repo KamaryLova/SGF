@@ -109,34 +109,34 @@ void sendToScreen(char *message, int fd)
     }
 }
 
-void getInput()
-{
-    printf("prompt $ >");
+// void getInput()
+// {
+//     printf("prompt $ >");
 
-    memset(cmd_str, '\0', MAX_COMMAND_SIZE);
-    // Read the command from the commandline.  The
-    // maximum command that will be read is MAX_COMMAND_SIZE
-    // This while command will wait here until the user
-    // inputs something since fgets returns NULL when there
-    // is no input
-    while (!fgets(cmd_str, MAX_COMMAND_SIZE, stdin));
-}
+//     memset(cmd_str, '\0', MAX_COMMAND_SIZE);
+//     // Read the command from the commandline.  The
+//     // maximum command that will be read is MAX_COMMAND_SIZE
+//     // This while command will wait here until the user
+//     // inputs something since fgets returns NULL when there
+//     // is no input
+//     while (!fgets(cmd_str, MAX_COMMAND_SIZE, stdin));
+// }
 
-void execute(){
-    // If the user just hits enter, do nothing
-    if (cmd_str == NULL)
-    {
-        return;
-    }
-    mkfifo("communication", 0666); 
-    int fd = open("communication", O_WRONLY);
-    if (fd == -1 )
-    {
-        perror("Could not open named pipe ");
-    }
-    if (write(fd, cmd_str, sizeof(cmd_str)) == -1 )
-    {
-        perror("Error bad file descriptor");
-    }
-    close(fd);
-}
+// void execute(){
+//     // If the user just hits enter, do nothing
+//     if (cmd_str == NULL)
+//     {
+//         return;
+//     }
+//     mkfifo("communication", 0666); 
+//     int fd = open("communication", O_WRONLY);
+//     if (fd == -1 )
+//     {
+//         perror("Could not open named pipe ");
+//     }
+//     if (write(fd, cmd_str, sizeof(cmd_str)) == -1 )
+//     {
+//         perror("Error bad file descriptor");
+//     }
+//     close(fd);
+// }
