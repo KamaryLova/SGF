@@ -39,7 +39,7 @@ Un système de fichier FAT doit au moins contenir ces 4 sections pour pouvoir li
 * Data Region : partition où se situe les données. 
 
 ## Utilisation 
-Pour lancer le code, il faudrait d'abord lancer ces commandes qui créront un disque  image en formater en FAT32. \
+Pour lancer le code, il faudrait d'abord lancer ces commandes qui créront un disque  image en formater en FAT32.\
 
 1. ```sudo fdisk -l ``` \
 Identifier le disque avec le plus d'espace (ex: /dev/sda1)
