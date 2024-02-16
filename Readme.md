@@ -54,13 +54,12 @@ Notre disque aura alors :
 - le FAT Region 
 - le DATA Region 
 
-Maintenant nous allons pouvoir lancer la compilation avec gcc \
+Maintenant nous allons pouvoir lancer la compilation avec gcc : 
 
 ```gcc -o noyau fat32-code.c```
 
-Pour executer : \
-
-! Remarques: Les fichiers et repertoire doivent etre en majuscule sinon il y aurait des erreurs. \
+Pour executer : 
+!Remarques: Les fichiers et repertoire doivent etre en majuscule sinon il y aurait des erreurs. \
 
 
 ```
