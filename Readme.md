@@ -41,26 +41,26 @@ Un système de fichier FAT doit au moins contenir ces 4 sections pour pouvoir li
 ## Utilisation 
 Pour lancer le code, il faudrait d'abord lancer ces commandes qui créront un disque  image en formater en FAT32. \
 
-1. ```sudo fdisk -l ```
+1. ```sudo fdisk -l ``` \
 Identifier le disque avec le plus d'espace (ex: /dev/sda1)
 
-2. ```sudo dd if=/dev/sda1 of=disk.img bs=1M count1024```
+2. ```sudo dd if=/dev/sda1 of=disk.img bs=1M count1024``` \
 Ceci créera un disque image binaire avec de blocs de 1M et une taille de 1 Gigaoctet.
 
-3. ```sudo mkfs.vfat -F 32 disk.img```
+3. ```sudo mkfs.vfat -F 32 disk.img``` \
 Ceci va formater le disque en FAT32, mais il ne crée pas les partitions. 
 Notre disque aura alors : 
 - le BOOTSECTOR
 - le FAT Region 
 - le DATA Region 
 
-Maintenant nous allons pouvoir lancer la compilation avec gcc 
+Maintenant nous allons pouvoir lancer la compilation avec gcc \
 
 ```gcc -o noyau fat32-code.c```
 
 Pour executer : \
 
-! Remarques: Les fichiers et repertoire doivent etre en majuscule sinon il y aurait des erreurs. 
+! Remarques: Les fichiers et repertoire doivent etre en majuscule sinon il y aurait des erreurs. \
 
 
 ```
