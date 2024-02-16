@@ -58,8 +58,8 @@ Maintenant nous allons pouvoir lancer la compilation avec gcc :
 
 ```gcc -o noyau fat32-code.c```
 
-Pour executer : 
-!Remarques: Les fichiers et repertoire doivent etre en majuscule sinon il y aurait des erreurs. \
+Pour executer : </br>
+!Remarques: Les fichiers et repertoire doivent etre en majuscule sinon il y aurait des erreurs. </br>
 
 
 ```
